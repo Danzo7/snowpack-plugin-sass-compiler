@@ -1,0 +1,24 @@
+{
+  "bundleDependencies": false,
+  "dependencies": {
+    "sass": "^1.32.4"
+  },
+  "deprecated": false,
+  "description": "This plugin adds [Sass](https://sass-lang.com/) support ",
+  "license": "MIT",
+  "main": "plugin.js",
+  "name": "@snowpack/plugin-sass-compiler",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "1.0.0",
+  "homepage": "https://github.com/Danzo7/",
+  "bugs": {
+    "url": "https://github.com/Danzo7/-snowpack-plugin-sass-compiler/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danzo7/",
+    "directory": "-snowpack-plugin-sass-compiler"
+  }
+}
