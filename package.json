@@ -1,5 +1,4 @@
 {
-  "bundleDependencies": false,
   "dependencies": {
     "sass": "^1.32.4"
   },
@@ -11,7 +10,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "1.0.0",
+  "version": "1.0.1",
   "homepage": "https://github.com/Danzo7/",
   "bugs": {
     "url": "https://github.com/Danzo7/snowpack-plugin-sass-compiler/issues"
@@ -20,5 +19,17 @@
     "type": "git",
     "url": "https://github.com/danzo7/",
     "directory": "snowpack-plugin-sass-compiler"
-  }
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "snowpack-sass",
+    "snowpack-plugin",
+    "snowpack",
+    "sass",
+    "scss"
+  ],
+  "author": "danzo7"
 }
