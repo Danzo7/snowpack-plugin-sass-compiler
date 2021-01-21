@@ -10,7 +10,7 @@ Sass is interesting in that multiple compilers are available: [sass](https://www
 ## Usage
 
 ```bash
-npm i snowpack-sass-compiler
+npm i snowpack-sass-compiler --save-dev
 ```
 
 Then add the plugin to your Snowpack config:
