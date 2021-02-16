@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "sass": "^1.32.4"
+    "sass": "^1.32.7"
   },
   "deprecated": false,
   "description": "This plugin adds [Sass](https://sass-lang.com/) support ",
@@ -10,7 +10,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "1.0.2",
+  "version": "1.0.3",
   "homepage": "https://github.com/Danzo7/",
   "bugs": {
     "url": "https://github.com/Danzo7/snowpack-plugin-sass-compiler/issues"

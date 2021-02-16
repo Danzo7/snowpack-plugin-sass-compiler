@@ -15,7 +15,7 @@ module.exports = function (_, sassConfig) {
     }
   }
   return {
-    name: 'sass-preprocess',
+    name: 'snowpack-sass-compiler',
     resolve: {
       input: ['.scss', '.sass'],
       output: ['.css'],
