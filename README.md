@@ -36,3 +36,26 @@ module.exports = {
 | :------------------ | :-------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `includePaths`            | `array` | This array of strings option provides [load paths](https://sass-lang.com/documentation/at-rules/import#load-paths) for Sass to look for imports. Earlier load paths will take precedence over later ones.|
 
+## Alias
+You  can use alias path by adding your snowpack configuration file `snowpack.config.js`
+
+```
+module.exports = {
+  plugins: [
+      'snowpack-sass-compiler',
+      ...    
+  ],
+  alias: {
+    '@myStyles': './path/to/styles',
+  },
+  
+  };
+```
+then you can use `@myStyles` in your SASS/SCSS files without having to include the relative path over and over.
+`./my/other/style/example.scss`
+
+```
+@import '@myStyles/some.scss'
+...
+```
+> Note: there is no need to use `includePaths` when using alias as its give more flexible paths that are easy to read and tracable  
