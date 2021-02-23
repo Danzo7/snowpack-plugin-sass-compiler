@@ -1,43 +1,32 @@
 const sass = require("sass");
 const fs = require("fs");
-const { relative } = require("path");
-async function sassProcess(data, config) {
-  return sass.renderSync({ ...config, data });
+async function sassProcess(config) {
+  return sass.renderSync(config);
 }
 
-module.exports = function ({ alias }, sassConfig) {
-  /* function anotherAliasToRelative(content,aliases){
- return content.split("\n").map(condidate => {
-   let relativeImport=condidate;
-   if(condidate.match(/(@import|@use)/g)){
-Object.entries(aliases).forEach(([alias,aliasPath]) => {
-const regex=new RegExp(`((?<=')${alias}+(?=\/.*'))`,"g");
-if(condidate.match(regex)){
-relativeImport=condidate.replace(regex,aliasPath);
-return;}
-});}
+module.exports = function ({ alias },{includePaths=[],useAlias=false,aliasPrefix=""} ) {
+  function aliasImportsToRelative(content, aliases, prefix) {
 
-return relativeImport;
-}).join("\n");
-} */
-
-  function aliasImportsToRelative(content, aliases, prefix = "") {
-    const regex = new RegExp(
+    const parentDirRegex = new RegExp(
       `((?<=')${prefix}[^\//*?|<>:\n; "]+(?=\/.*';)+)`,
       "g"
     );
+    //use prefix to filter regular imports from alias imports
+    const isAliasRegex=new RegExp(`(@import|@use)+(?=\ '${prefix})`)
     return content
       .split("\n")
       .map((line) => {
-        if (line.match(/(@import|@use)/g)) {
+        if (line.match(isAliasRegex)) {
           [method, AliasImport] = line.split(" ");
-          [target] = AliasImport.match(regex) || [-1];
-          aliasPath = aliases[target];
-          relativeImport = aliasPath
-            ? AliasImport.replace(regex, aliasPath)
+          [target] = AliasImport.match(parentDirRegex) || [-1];
+          let aliasPath = aliases[target];
+          let relativeImport = aliasPath
+            ? AliasImport.replace(parentDirRegex, aliasPath)
             : AliasImport;
           return `${method} ${relativeImport}`;
-        } else return line;
+        } 
+        else
+        return line
       })
       .join("\n");
   }
@@ -56,10 +45,7 @@ return relativeImport;
       input: [".scss", ".sass"],
       output: [".css"],
     },
-    /**
-     * If any files imported the given file path, mark them as changed.
-     * @private
-     */
+ 
     _markImportersAsChanged(filePath) {
       if (importedByMap.has(filePath)) {
         const importedBy = importedByMap.get(filePath);
@@ -71,15 +57,12 @@ return relativeImport;
     },
 
     onChange({ filePath }) {
-      // check exact: "_index.scss" (/a/b/c/foo/_index.scss)
       this._markImportersAsChanged(filePath);
     },
     async load({ filePath, isDev }) {
-      const data = aliasImportsToRelative(
-        fs.readFileSync(filePath, "utf-8"),
-        alias
-      );
-      const result = await sassProcess(data, sassConfig);
+      let data=fs.readFileSync(filePath, "utf-8");
+      data =useAlias ? aliasImportsToRelative(data,alias,aliasPrefix) : data;
+      const result = await sassProcess({data, includePaths});
       if (isDev) {
         const sassImports = result.stats.includedFiles;
         sassImports.forEach(
