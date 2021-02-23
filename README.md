@@ -34,7 +34,9 @@ module.exports = {
 
 | Name                |   Type    | Description                                                                                                                                                                                                                                                                              |
 | :------------------ | :-------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `includePaths`            | `array` | This array of strings option provides [load paths](https://sass-lang.com/documentation/at-rules/import#load-paths) for Sass to look for imports. Earlier load paths will take precedence over later ones.|
+| `includePaths` | `String[]` | This array of strings option provides [load paths](https://sass-lang.com/documentation/at-rules/import#load-paths) for Sass to look for imports. Earlier load paths will take precedence over later ones.|
+| `useAlias ` | `Boolean` | This determine whather you using path aliases or not `Default:false`.set it to true to be able to use aliases.|
+| `aliasPrefix ` | `String` | this will tell the plugin what prefix you use for the aliases if you have one `Default:none`. It's optional but for optimization purposes determine a prefix is recommended.  example: `alias=@style -> aliasPrefix="@"`|
 
 ## Alias
 You  can use alias path by adding your snowpack configuration file `snowpack.config.js`
@@ -42,8 +44,14 @@ You  can use alias path by adding your snowpack configuration file `snowpack.con
 ```
 module.exports = {
   plugins: [
+  [
       'snowpack-sass-compiler',
-      ...    
+      {
+        useAlias:true,
+        aliasPrefix:"@" //could work without this
+      },
+    ],
+    ...    
   ],
   alias: {
     '@myStyles': './path/to/styles',
