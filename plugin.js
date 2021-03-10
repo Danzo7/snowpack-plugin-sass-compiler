@@ -1,10 +1,6 @@
 const sass = require("sass");
 const fs = require("fs");
-async function sassProcess(config) {
-  return sass.renderSync(config);
-}
-
-module.exports = function ({ alias },{includePaths=[],useAlias=false,aliasPrefix=""} ) {
+module.exports = function ({ alias },{includePaths=[],useAlias=false,aliasPrefix="",compilerOptions={}} ) {
   function aliasImportsToRelative(content, aliases, prefix) {
 
     const parentDirRegex = new RegExp(
@@ -62,7 +58,9 @@ module.exports = function ({ alias },{includePaths=[],useAlias=false,aliasPrefix
     async load({ filePath, isDev }) {
       let data=fs.readFileSync(filePath, "utf-8");
       data =useAlias ? aliasImportsToRelative(data,alias,aliasPrefix) : data;
-      const result = await sassProcess({data, includePaths});
+      if(compilerOptions["data"])
+     throw new Error("Handling data are made by the plugin. You need to remove 'data' attribute");
+      const result = sass.renderSync({data, includePaths,...compilerOptions});
       if (isDev) {
         const sassImports = result.stats.includedFiles;
         sassImports.forEach(
